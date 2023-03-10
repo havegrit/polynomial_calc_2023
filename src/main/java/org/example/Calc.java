@@ -2,13 +2,14 @@ package org.example;
 
 public class Calc {
     public static int run(String exp){
+        exp = exp.replaceAll("- ", "+ -");
         String[] bits = exp.split(" ");
         int a = Integer.parseInt(bits[0]);
         int b = Integer.parseInt(bits[2]);
-        String op = bits[1];
-        if(op.equals("+")){
-            return a+b;
+        int c = 0;
+        if(bits.length > 3){
+            c = Integer.parseInt(bits[4]);
         }
-        return a-b;
+        return a+b+c;
     }
 }
