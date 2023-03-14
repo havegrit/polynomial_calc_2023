@@ -7,8 +7,10 @@ public class Calc {
     public static int run(String exp){
         if (!exp.contains(" ")) return Integer.parseInt(exp);
 
+        exp = stripOuterBrackets(exp);
+
         boolean needToMulti = exp.contains("*");
-        boolean needToPlus = exp.contains("+") || exp.contains("-") || exp.contains("(");
+        boolean needToPlus = exp.contains("+") || exp.contains("-");
 
         boolean needToCompound = exp.contains("*") && exp.contains("+");
 
@@ -28,8 +30,6 @@ public class Calc {
             return mul;
         } else if (needToPlus) {
             int sum = 0;
-            exp = exp.replaceAll("\\(", "");
-            exp = exp.replaceAll("\\)", "");
             exp = exp.replaceAll("- ", "+ -");
             String[] bits = exp.split(" \\+ ");
             for (String value : bits){
@@ -38,5 +38,17 @@ public class Calc {
             return sum;
         }
         throw new RuntimeException("올바른 계산식이 아닙니다.");
+    }
+
+    private static String stripOuterBrackets(String exp) {
+        int outerBracketsCount = 0;
+
+        while ( exp.charAt(outerBracketsCount) == '(' && exp.charAt(exp.length() - 1 - outerBracketsCount) == ')' ) {
+            outerBracketsCount++;
+        }
+
+        if ( outerBracketsCount == 0 ) return exp;
+
+        return exp.substring(outerBracketsCount, exp.length() - outerBracketsCount);
     }
 }
