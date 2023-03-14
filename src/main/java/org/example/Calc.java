@@ -1,6 +1,5 @@
 package org.example;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -9,7 +8,7 @@ public class Calc {
         if (!exp.contains(" ")) return Integer.parseInt(exp);
 
         boolean needToMulti = exp.contains("*");
-        boolean needToPlus = exp.contains("+") || exp.contains("-");
+        boolean needToPlus = exp.contains("+") || exp.contains("-") || exp.contains("(");
 
         boolean needToCompound = exp.contains("*") && exp.contains("+");
 
@@ -29,6 +28,8 @@ public class Calc {
             return mul;
         } else if (needToPlus) {
             int sum = 0;
+            exp = exp.replaceAll("\\(", "");
+            exp = exp.replaceAll("\\)", "");
             exp = exp.replaceAll("- ", "+ -");
             String[] bits = exp.split(" \\+ ");
             for (String value : bits){
