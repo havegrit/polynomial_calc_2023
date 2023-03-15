@@ -30,8 +30,10 @@ public class Calc {
                 }
             }
             String firstExp = exp.substring(0, splitPointIndex + 1);
+            String operation = exp.substring(splitPointIndex + 1, splitPointIndex +4);
             String SecondExp = exp.substring(splitPointIndex + 4);
-            return Calc.run(firstExp) + Calc.run(SecondExp);
+
+            return Calc.run(Calc.run(firstExp) + operation + Calc.run(SecondExp));
         } else if(needToCompound) {
             String[] bits = exp.split(" \\+ ");
             String  newExp = Arrays.stream(bits)
