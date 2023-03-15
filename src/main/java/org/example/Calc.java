@@ -16,24 +16,12 @@ public class Calc {
         boolean needToCompound = exp.contains("*") && exp.contains("+");
 
         if (needToSplit) {
-            int bracketsCount = 0;
-            int splitPointIndex = -1;
-            for (int i = 0; i < exp.length(); i++) {
-                if (exp.charAt(i) == '(') {
-                    bracketsCount++;
-                } else if (exp.charAt(i) == ')') {
-                    bracketsCount--;
-                }
-                if (bracketsCount == 0) {
-                    splitPointIndex = i;
-                    break;
-                }
-            }
-            String firstExp = exp.substring(0, splitPointIndex + 1);
-            String operation = exp.substring(splitPointIndex + 1, splitPointIndex +4);
-            String SecondExp = exp.substring(splitPointIndex + 4);
+            int splitPointIndex = findSplitPointIndex(exp);
+            String firstExp = exp.substring(0, splitPointIndex-1);
+            String operationCode = exp.substring(splitPointIndex-1, splitPointIndex + 2);
+            String SecondExp = exp.substring(splitPointIndex + 2);
 
-            return Calc.run(Calc.run(firstExp) + operation + Calc.run(SecondExp));
+            return Calc.run(Calc.run(firstExp) + operationCode + Calc.run(SecondExp));
         } else if(needToCompound) {
             String[] bits = exp.split(" \\+ ");
             String  newExp = Arrays.stream(bits)
@@ -58,6 +46,26 @@ public class Calc {
             return sum;
         }
         throw new RuntimeException("올바른 계산식이 아닙니다.");
+    }
+    private static int findSplitPointIndexBy(String exp, char findChar) {
+        int bracketsCount = 0;
+        for (int i = 0; i < exp.length(); i++) {
+            char c = exp.charAt(i);
+            if (c == '(') {
+                bracketsCount++;
+            } else if (c == ')') {
+                bracketsCount--;
+            } else if (c == findChar) {
+                if (bracketsCount == 0) return i;
+            }
+        }
+        return -1;
+    }
+
+    private static int findSplitPointIndex(String exp) {
+        int index = findSplitPointIndexBy(exp, '+');
+        if(index >= 0) return index;
+        return findSplitPointIndexBy(exp, '*');
     }
 
     private static String stripOuterBrackets(String exp) {
