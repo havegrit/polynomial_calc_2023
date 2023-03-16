@@ -4,15 +4,21 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Calc {
+    public static boolean debug = false;
+    public static int runCallCount = 0;
     public static int run(String exp){
+        runCallCount++;
         if (!exp.contains(" ")) return Integer.parseInt(exp);
+
+        if (debug) {
+            System.out.printf("exp(%d) = %d",runCallCount, exp);
+        }
 
         exp = stripOuterBrackets(exp);
 
         boolean needToMulti = exp.contains("*");
         boolean needToPlus = exp.contains("+") || exp.contains("-");
         boolean needToSplit = exp.contains("(") || exp.contains(")");
-
         boolean needToCompound = exp.contains("*") && exp.contains("+");
 
         if (needToSplit) {
