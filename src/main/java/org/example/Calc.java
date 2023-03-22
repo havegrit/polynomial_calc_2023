@@ -10,6 +10,10 @@ public class Calc {
         runCallCount++;
         if (!exp.contains(" ")) return Integer.parseInt(exp);
 
+        if (isCaseMinusBracket(exp)) {
+            exp = exp.substring(1) + " * -1";
+        }
+
         if (debug) {
             System.out.printf("exp(%d) = %d",runCallCount, exp);
         }
@@ -53,6 +57,24 @@ public class Calc {
         }
         throw new RuntimeException("올바른 계산식이 아닙니다.");
     }
+
+    private static boolean isCaseMinusBracket(String exp) {
+        if (exp.startsWith("-(") == false) return false;
+        int bracketsCount = 0;
+        for (int i = 0; i < exp.length(); i++) {
+            char c = exp.charAt(i);
+            if (c == '(') {
+                bracketsCount++;
+            } else if (c == ')') {
+                bracketsCount--;
+            }
+            if (bracketsCount == 0) {
+                if ( exp.length() - 1 == i ) return true;
+            }
+        }
+        return false;
+    }
+
     private static int findSplitPointIndexBy(String exp, char findChar) {
         int bracketsCount = 0;
         for (int i = 0; i < exp.length(); i++) {

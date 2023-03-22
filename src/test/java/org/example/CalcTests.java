@@ -110,4 +110,14 @@ public class CalcTests {
     void t20() {
         assertThat(Calc.run("-(10 + 5)")).isEqualTo(-15);
     }
+    @Test
+    @DisplayName("(10 + 5) * -1 == -15")
+    void t21() {
+        assertThat(Calc.run("(10 + 5) * -1")).isEqualTo(-15);
+    }
+    @Test
+    @DisplayName("-(8 + 2) * -(9 + 1) == 100")
+    void t22() {
+        assertThat(Calc.run("-(8 + 2) * -(9 + 1)")).isEqualTo(100);
+    }
 }
