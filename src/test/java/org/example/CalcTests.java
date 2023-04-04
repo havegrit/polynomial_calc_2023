@@ -120,4 +120,9 @@ public class CalcTests {
     void t22() {
         assertThat(Calc.run("-(8 + 2) * -(9 + 1)")).isEqualTo(100);
     }
+    @Test
+    @DisplayName("-(9 + 1) * -(8 + 2) + 5 == 105")
+    void t23() {
+        assertThat(Calc.run("-(9 + 1) * -(8 + 2) + 5")).isEqualTo(105);
+    }
 }
